@@ -10,32 +10,45 @@
     <h1>Cardápio Digital</h1>
 
     <h2>🍔 Lanches</h2>
-    <ul>
-        <li>Hambúrguer Simples - R$ 15,00</li>
-        <li>X-Burguer - R$ 18,00</li>
-        <li>X-Salada - R$ 20,00</li>
-        <li>Cheeseburger Bacon - R$ 22,00</li>
-    </ul>
+    <ul id="lista-lanches"></ul>
 
     <h2>🍟 Porções</h2>
-    <ul>
-        <li>Batata Frita Pequena - R$ 10,00</li>
-        <li>Batata Frita Grande - R$ 16,00</li>
-        <li>Nuggets - R$ 12,00</li>
-    </ul>
+    <ul id="lista-porcoes"></ul>
 
     <h2>🥤 Bebidas</h2>
-    <ul>
-        <li>Refrigerante Lata - R$ 6,00</li>
-        <li>Suco Natural - R$ 8,00</li>
-        <li>Água Mineral - R$ 4,00</li>
-    </ul>
+    <ul id="lista-bebidas"></ul>
 
     <h2>🍰 Sobremesas</h2>
-    <ul>
-        <li>Pudim - R$ 7,00</li>
-        <li>Bolo de Chocolate - R$ 9,00</li>
-        <li>Sorvete - R$ 6,00</li>
-    </ul>
+    <ul id="lista-sobremesas"></ul>
+
+    <script src="scripts.js"></script>
+    <script>
+        // Função para salvar o produto e redirecionar
+        function selecionarProduto(categoria, id) {
+            sessionStorage.setItem("categoriaEscolhida", categoria);
+            sessionStorage.setItem("produtoEscolhido", id);
+            window.location.href = "produto.html";
+        }
+
+        // Renderiza os produtos dinamicamente a partir dos arrays do scripts.js
+        function renderizarLista(lista, elementoId, categoria, chaveNome) {
+            const ul = document.getElementById(elementoId);
+            lista.forEach(item => {
+                const li = document.createElement("li");
+                const link = document.createElement("a");
+                link.textContent = `${item[chaveNome]} - ${item.Preco}`;
+                link.href = "#";
+                link.onclick = () => selecionarProduto(categoria, item.id);
+                li.appendChild(link);
+                ul.appendChild(li);
+            });
+        }
+
+        // Monta cada lista
+        renderizarLista(lanches, "lista-lanches", "lanches", "Lanche");
+        renderizarLista(porcoes, "lista-porcoes", "porcoes", "Porcao");
+        renderizarLista(bebidas, "lista-bebidas", "bebidas", "Bebida");
+        renderizarLista(sobremesas, "lista-sobremesas", "sobremesas", "Sobremesa");
+    </script>
 </body>
 </html>
