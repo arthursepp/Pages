@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes</title>
+    <link rel="stylesheet" href="style-produto.css">
+</head>
+<body>
+    <h1>Detalhes do Produto</h1>
+    <div id="detalhes"></div>
+
+    <h2>Outras opções</h2>
+    <ul id="outras"></ul>
+
+    <script src="scripts.js"></script>
+    <script>
+        window.onload = function() {
+            const categoria = sessionStorage.getItem("categoriaEscolhida");
+            const id = sessionStorage.getItem("produtoEscolhido");
+
+            if (!categoria || !id) {
+                document.getElementById("detalhes").textContent = "Nenhum produto selecionado.";
+                return;
+            }
+
+            const lista = JSON.parse(sessionStorage.getItem(categoria));
+            const produto = lista.find(p => p.id == id);
+
+            // Exibe detalhes
+            let nomeKey = Object.keys(produto).find(k => k !== "id" && k !== "Preco");
+            document.getElementById("detalhes").textContent =
+                `${produto[nomeKey]} - ${produto.Preco}`;
+
+            // Exibe outras opções
+            const outras = lista.filter(p => p.id != id);
+            const ul = document.getElementById("outras");
+            outras.forEach(p => {
+                const li = document.createElement("li");
+                li.textContent = `${p[nomeKey]} - ${p.Preco}`;
+                ul.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>
